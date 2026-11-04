@@ -27,3 +27,36 @@ Réseau utilisé : 192.168.10.0/24
 | SW1 | VLAN 1 (SVI) | 192.168.10.253 | 255.255.255.0 | 192.168.10.254 |
 | PC1 | Fa0 | 192.168.10.1 | 255.255.255.0 | 192.168.10.254 |
 | PC2 | Fa0 | 192.168.10.2 | 255.255.255.0 | 192.168.10.254 |
+
+## 4. Commandes
+
+### SW1
+
+```
+enable
+configure terminal
+hostname SW1
+line console 0
+ password cisco123
+ login
+ exit
+enable secret class123
+service password-encryption
+banner motd #Acces autorise uniquement#
+interface vlan 1
+ ip address 192.168.10.253 255.255.255.0
+ no shutdown
+ exit
+ip default-gateway 192.168.10.254
+end
+show ip interface brief
+ping 192.168.10.1
+ping 192.168.10.2
+copy running-config startup-config
+```
+
+### PC1 et PC2
+
+Desktop → IP Configuration → Static, avec les valeurs du plan d'adressage (section 3).
+
+La configuration finale complète de SW1 est dans [configs/SW1.cfg](configs/SW1.cfg).
